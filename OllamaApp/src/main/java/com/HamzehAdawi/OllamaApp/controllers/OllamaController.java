@@ -30,7 +30,7 @@ public class OllamaController {
     public String homePage(Model model) {
         model.addAttribute("ollamaModel", appConfig.getOllamaModel());
         ArrayList<String> list = new ArrayList<>();
-        list.add("Ollama: "+ ollamaServiceImpl.chat("give a friendly, and warm greeting."));
+        list.add("Ollama: "+ ollamaServiceImpl.chat("give a short, one sentence, friendly greeting."));
         model.addAttribute("messageList", list);
         return "dashboard";
     }

@@ -7,19 +7,23 @@ body {
     background-color: #1E1E1E;
     text-align: center;
 }
-
-#edit_box {
-    width: 60%;
-    margin: 0 auto;
-}
-
 .box2 {
     width: 55%;
-    margin: 0 auto;
+    position: absolute;
+    left: 25%;
+    top: 1%;
     border-radius: 8px;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.29);
     text-align: center;
+    max-height: 1300px;
+    
+}
+
+#edit-title {
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 
 .inp_field {
