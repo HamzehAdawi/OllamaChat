@@ -6,9 +6,8 @@
 ---
 ## Demo
 
-![Screenshot 2025-07-09 171808](https://github.com/user-attachments/assets/0732f213-f42b-411f-8101-28767c1cc78d)
+---<img width="2160" height="1247" alt="OllamaDemo" src="https://github.com/user-attachments/assets/66af320c-6481-430f-8ade-b65ca60ba1e1" />
 
----
 
 ## Features
 
