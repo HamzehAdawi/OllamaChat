@@ -26,9 +26,7 @@ function loadPrismAssets() {
 
 function showLoader() {
     const loadingDots = document.getElementById("loading-dots");
-    if (loadingDots) {
-        loadingDots.style.display = "flex";
-    }
+    if (loadingDots) loadingDots.style.display = "flex";
     return true;
 }
 
@@ -42,60 +40,54 @@ function highlightInlineCode() {
         const nodes = Array.from(msg.childNodes);
 
         nodes.forEach((node) => {
-            if (node.nodeType === Node.TEXT_NODE) {
-                const text = node.nodeValue.trim();
+            if (node.nodeType !== Node.TEXT_NODE) return;
 
-                // Try parsing JSON only if it looks valid
-                if (isJsonCandidate(text)) {
-                    try {
-                        const jsonObj = JSON.parse(text);
-                        if (typeof jsonObj === "object" && jsonObj !== null) {
-                            const prettyJson = JSON.stringify(jsonObj, null, 2);
+            const text = node.nodeValue.trim();
 
-                            const pre = document.createElement("pre");
-                            const code = document.createElement("code");
-                            code.className = "language-json";
-                            code.textContent = prettyJson;
+            if (isJsonCandidate(text)) {
+                try {
+                    const jsonObj = JSON.parse(text);
+                    if (typeof jsonObj === "object" && jsonObj !== null) {
+                        const prettyJson = JSON.stringify(jsonObj, null, 2);
 
-                            pre.appendChild(code);
-                            msg.replaceChild(pre, node);
-                            return;
-                        }
-                    } catch (e) {
-                        // Silently ignore JSON parsing errors
+                        const pre = document.createElement("pre");
+                        const code = document.createElement("code");
+                        code.className = "language-json";
+                        code.textContent = prettyJson;
+
+                        pre.appendChild(code);
+                        msg.replaceChild(pre, node);
+                        return;
                     }
-                }
+                } catch (e) {}
+            }
 
-                // Markdown-style inline/block code
-                if (text.includes("`")) {
-                    const parts = splitMarkdownCodeBlocks(text);
-                    const fragment = document.createDocumentFragment();
-                    let hasCode = false;
+            if (text.includes("`")) {
+                const parts = splitMarkdownCodeBlocks(text);
+                const fragment = document.createDocumentFragment();
+                let hasCode = false;
 
-                    parts.forEach((part) => {
-                        if (part.type === "inline") {
-                            const code = document.createElement("code");
-                            code.className = "language-javascript";
-                            code.textContent = part.content;
-                            fragment.appendChild(code);
-                            hasCode = true;
-                        } else if (part.type === "block") {
-                            const pre = document.createElement("pre");
-                            const code = document.createElement("code");
-                            code.className = "language-javascript";
-                            code.textContent = part.content;
-                            pre.appendChild(code);
-                            fragment.appendChild(pre);
-                            hasCode = true;
-                        } else {
-                            fragment.appendChild(document.createTextNode(part.content));
-                        }
-                    });
-
-                    if (hasCode) {
-                        msg.replaceChild(fragment, node);
+                parts.forEach((part) => {
+                    if (part.type === "inline") {
+                        const code = document.createElement("code");
+                        code.className = "language-javascript";
+                        code.textContent = part.content;
+                        fragment.appendChild(code);
+                        hasCode = true;
+                    } else if (part.type === "block") {
+                        const pre = document.createElement("pre");
+                        const code = document.createElement("code");
+                        code.className = "language-javascript";
+                        code.textContent = part.content;
+                        pre.appendChild(code);
+                        fragment.appendChild(pre);
+                        hasCode = true;
+                    } else {
+                        fragment.appendChild(document.createTextNode(part.content));
                     }
-                }
+                });
+
+                if (hasCode) msg.replaceChild(fragment, node);
             }
         });
     });
@@ -140,16 +132,12 @@ function splitMarkdownCodeBlocks(text) {
     return parts;
 }
 
-window.addEventListener("load", function () {
+window.addEventListener("load", () => {
     const loadingDots = document.getElementById("loading-dots");
-    if (loadingDots) {
-        loadingDots.style.display = "none";
-    }
+    if (loadingDots) loadingDots.style.display = "none";
 
     const chat = document.getElementById("chat");
-    if (chat) {
-        chat.scrollTop = chat.scrollHeight;
-    }
+    if (chat) chat.scrollTop = chat.scrollHeight;
 
     const textarea = document.getElementById("input");
     if (textarea) {
