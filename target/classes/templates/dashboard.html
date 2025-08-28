@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" th:href="@{/css/dashboard-style.css}"/>
+    <title>Ollama</title>
+</head>
+
+<body>
+<div id="edit_box" class="box2">
+
+    <div id="edit-title">
+        <img src="/images/Ollama_pic.png" style="width:100px; height:auto;">
+        <h1 style="padding-top: 20px"> Ollama AI</h1>
+    </div>
+    <h4 th:text="'Model: ' + ${ollamaModel}"></h4>
+
+    <div class="loader" id="loading-dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <div class="inp_field">
+        <form th:action="@{/}" method="post" onsubmit="return showLoader()">
+            <label for="input"></label>
+            <br>
+
+            <div id="chat" th:if="${messageList != null and !#lists.isEmpty(messageList)}" style="background-color: rgb(58,58,58); padding-left: 25px">
+                <div th:each="msg : ${messageList}">
+                    <div class="message"
+                         th:utext="${#strings.replace(#strings.replace(msg, 'Me:', '<strong>Me:</strong>'), 'Ollama:', '<strong>Ollama:</strong>')}">
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <textarea
+                    placeholder="Chat with Ollama..."
+                    id="input"
+                    name="input"
+                    style="font-size: 16px; width: 97%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    height: 65px; resize: none; padding-left: 10px; padding-top: 10px; text-align: left;"></textarea>
+            </div>
+
+            <div id="button-pos">
+                <button id="ask-button" type="submit">Ask</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/js/dashboard-script.js}"></script>
+</body>
+</html>
